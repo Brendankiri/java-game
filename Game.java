@@ -37,6 +37,7 @@ class Enemy {
     int health;
     int damage;
     String intro;
+    boolean showEnemy = true;
 
     //Enemy constructor
     public Enemy(String name, int health, int damage, String intro) {
@@ -89,29 +90,42 @@ public class Game {
         //WEAPON DATABASE
         
         //ITEM DATABASE
-          
+        
+        
+        //CURRENT ENEMY
+           
         while (running = true){
         //Present enemy
             int enemyIndex = (int)(Math.random() * enemies.length);
-            System.out.println(enemies[enemyIndex].intro + enemies[enemyIndex].name + ", with " + enemies[enemyIndex].health + " health and " + enemies[enemyIndex].damage + " damage...");
+            if (enemies[enemyIndex].showEnemy == true) {
+               System.out.println(enemies[enemyIndex].intro + enemies[enemyIndex].name + ", with " + enemies[enemyIndex].health + " health and " + enemies[enemyIndex].damage + " damage...");
+               System.out.println();
+            }
+            enemies[enemyIndex].showEnemy = false;
         //Prompt user for action 
             System.out.println("What action do you want to take?");
+            System.out.println();
                System.out.println("1. Attack  2. Defend  3. Items  ");
+               System.out.println();
                action = sc.nextInt();
                  
                  //Player attacks
                   if (action == 1) {
                      System.out.println("You swing at the " + enemies[enemyIndex].name + " for " + player.damage + " damage.");
+                     System.out.println();
                      player.attackEnemy(enemies[enemyIndex]);
-                     System.out.println("The " + enemies[enemyIndex].name + " is now at " + enemies[enemyIndex].health);
+                     System.out.println("The " + enemies[enemyIndex].name + " is now at " + enemies[enemyIndex].health + " health.");
+                     System.out.println();
                   }
                  
                  //Player defends
                   else if (action == 2) {
                      System.out.println("You prepare your defence of " + player.defence + " against the " + enemies[enemyIndex].name + "'s attack");
+                     System.out.println();
                      enemies[enemyIndex].enemyAttack(player); 
                         System.out.println("The " + enemies[enemyIndex].name + " attacks you with all its might, dealing " + enemies[enemyIndex].damage 
                         + " to you leaving you with " + player.health + " health remaining.");
+                        System.out.println();
                   }
                   
                  //Player Items
