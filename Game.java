@@ -38,9 +38,10 @@ class Enemy {
     int damage;
     String intro;
     boolean showEnemy = true;
+    boolean defeated;
 
     //Enemy constructor
-    public Enemy(String name, int health, int damage, String intro) {
+    public Enemy(String name, int health, int damage, String intro, boolean defeated) {
         this.name = name;
         this.health = health;
         this.damage = damage;
@@ -50,6 +51,10 @@ class Enemy {
     //Enemy methods
     public void enemyAttack(Player player){
       player.health = player.health - (this.damage - player.defence);
+    }
+    
+    public boolean isEnemyAlive() {
+      return this.health > 0;
     }
 }
 
@@ -83,24 +88,33 @@ public class Game {
         
         //ENEMY DATABASE
         Enemy[] enemies = new Enemy[3];
-        enemies[0] = new Enemy("Demon", 5, 4, "With an ominous laugh reverberating through your body, you turn around come face to face with a ");
-        enemies[1] = new Enemy("Onryo", 10, 1, "You feel an unnanounced wave of hatred wash over you and you know that you're dealing with an ");
-        enemies[2] = new Enemy("Torii", 20, 0, "You see the shillouhette of something strange at the end of the hallway and you are faced with a ");
+        enemies[0] = new Enemy("Demon", 5, 4, "With an ominous laugh reverberating through your body, you turn around come face to face with a ", false);
+        enemies[1] = new Enemy("Onryo", 10, 1, "You feel an unnanounced wave of hatred wash over you and you know that you're dealing with an ", false);
+        enemies[2] = new Enemy("Torii", 20, 0, "You see the shillouhette of something strange at the end of the hallway and you are faced with a ", false);
         
         //WEAPON DATABASE
         
         //ITEM DATABASE
         
-        
+        int enemyIndex = (int)(Math.random() * enemies.length);
         //CURRENT ENEMY
-           
-        while (running = true){
+        while (running == true) {
         //Present enemy
-            int enemyIndex = (int)(Math.random() * enemies.length);
-            if (enemies[enemyIndex].showEnemy == true) {
-               System.out.println(enemies[enemyIndex].intro + enemies[enemyIndex].name + ", with " + enemies[enemyIndex].health + " health and " + enemies[enemyIndex].damage + " damage...");
+            //Check if enemy is dead... if so choose new enemy index...
+            if (enemies[enemyIndex].isEnemyAlive() == false && enemies[enemyIndex].defeated == false) {
+               System.out.println("You have defeated the " + enemies[enemyIndex].name + " !");
                System.out.println();
+               System.out.println("you have earned: ");
+               System.out.println();
+               enemyIndex = (int)(Math.random() * enemies.length);
+               enemies[enemyIndex].showEnemy = true;
+               enemies[enemyIndex].defeated = true;
             }
+            else {
+               if (enemies[enemyIndex].showEnemy == true) {
+                  System.out.println(enemies[enemyIndex].intro + enemies[enemyIndex].name + ", with " + enemies[enemyIndex].health + " health and " + enemies[enemyIndex].damage + " damage...");
+                  System.out.println();
+             }
             enemies[enemyIndex].showEnemy = false;
         //Prompt user for action 
             System.out.println("What action do you want to take?");
@@ -126,13 +140,10 @@ public class Game {
                         System.out.println("The " + enemies[enemyIndex].name + " attacks you with all its might, dealing " + enemies[enemyIndex].damage 
                         + " to you leaving you with " + player.health + " health remaining.");
                         System.out.println();
-                  }
+            }
                   
                  //Player Items
-            
-            }
-        
-        
-        
-    }
+         }
+      }
+   }
 }
